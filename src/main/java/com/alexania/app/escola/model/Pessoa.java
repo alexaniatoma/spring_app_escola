@@ -1,5 +1,6 @@
 package com.alexania.app.escola.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -13,7 +14,7 @@ public class Pessoa {
 	@NotBlank(message = "O atributo nome é obrigatório")
 	private String nome;
 	
-	@Column 
+	@Column(nullable = true)
 	private String foto;
 	
 	@Column(nullable = false, unique = true)
@@ -26,13 +27,13 @@ public class Pessoa {
 	private String formacao;
 	
 	@Column(name = "data_nascimento")
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 	
 	@Column(name = "data_entrada")
-	private Date dataEntrada;
+	private LocalDate dataEntrada;
 	
-	@Column(name = "data_saida")
-	private Date dataSaida;
+	@Column(name = "data_saida", nullable = true)
+	private LocalDate dataSaida;
 
 	public String getNome() {
 		return nome;
@@ -74,27 +75,27 @@ public class Pessoa {
 		this.formacao = formacao;
 	}
 
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Date getDataEntrada() {
+	public LocalDate getDataEntrada() {
 		return dataEntrada;
 	}
 
-	public void setDataEntrada(Date dataEntrada) {
+	public void setDataEntrada(LocalDate dataEntrada) {
 		this.dataEntrada = dataEntrada;
 	}
 
-	public Date getDataSaida() {
+	public LocalDate getDataSaida() {
 		return dataSaida;
 	}
 
-	public void setDataSaida(Date dataSaida) {
+	public void setDataSaida(LocalDate dataSaida) {
 		this.dataSaida = dataSaida;
 	}	
 	
