@@ -3,6 +3,8 @@ package com.alexania.app.escola.model;
 import java.time.LocalDate;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
@@ -26,12 +28,15 @@ public class Pessoa {
 	@Column(nullable = false)
 	private String formacao;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "data_nascimento")
 	private LocalDate dataNascimento;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "data_entrada")
 	private LocalDate dataEntrada;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "data_saida", nullable = true)
 	private LocalDate dataSaida;
 
