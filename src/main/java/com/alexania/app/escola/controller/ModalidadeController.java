@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.alexania.app.escola.model.Modalidade;
 import com.alexania.app.escola.model.Professor;
 import com.alexania.app.escola.repository.ModalidadeRepository;
+import com.alexania.app.escola.repository.ProfessorRepository;
 
 import jakarta.validation.Valid;
 
@@ -31,6 +32,7 @@ public class ModalidadeController {
 	
 	@Autowired
 	private ModalidadeRepository modalidadeRepository;
+
 	
 	@GetMapping
 	public ResponseEntity<List<Modalidade>> getAll(){
@@ -74,5 +76,4 @@ public class ModalidadeController {
 			modalidadeRepository.deleteById(id);		
 	}
 	
-
 }

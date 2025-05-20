@@ -1,9 +1,16 @@
 package com.alexania.app.escola.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
@@ -27,9 +34,22 @@ public class Modalidade {
 	@DecimalMin(value = "0.00", message = "O atributo valor aula não pode ser negativo!")
 	private double valorAula;
 	
-	@Min(40)
+	@Min(39)
 	@Max(60)
 	private int tempoAula;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "modalidade" , cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("modalidade")
+	private List<Professor> professor;
+	
+
+	public List<Professor> getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(List<Professor> professor) {
+		this.professor = professor;
+	}
 
 	public Long getId() {
 		return id;

@@ -1,7 +1,11 @@
 package com.alexania.app.escola.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -28,15 +32,15 @@ public class Pessoa {
 	@Column(nullable = false)
 	private String formacao;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	@Column(name = "data_nascimento")
+	
+	@Column(name = "data_nascimento", nullable = false)
 	private LocalDate dataNascimento;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	@Column(name = "data_entrada")
-	private LocalDate dataEntrada;
+	@UpdateTimestamp
+	@Column(name = "data_entrada", nullable = false)
+	private LocalDateTime dataEntrada;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
+
 	@Column(name = "data_saida", nullable = true)
 	private LocalDate dataSaida;
 
@@ -88,11 +92,11 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public LocalDate getDataEntrada() {
+	public LocalDateTime getDataEntrada() {
 		return dataEntrada;
 	}
 
-	public void setDataEntrada(LocalDate dataEntrada) {
+	public void setDataEntrada(LocalDateTime dataEntrada) {
 		this.dataEntrada = dataEntrada;
 	}
 

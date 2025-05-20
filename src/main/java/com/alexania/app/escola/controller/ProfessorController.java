@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.alexania.app.escola.model.Aluno;
 import com.alexania.app.escola.model.Professor;
+import com.alexania.app.escola.repository.ModalidadeRepository;
 import com.alexania.app.escola.repository.ProfessorRepository;
 
 import jakarta.validation.Valid;
@@ -31,6 +32,9 @@ public class ProfessorController {
 	
 	@Autowired
 	private ProfessorRepository professorRepository;
+	
+	@Autowired
+	private ModalidadeRepository modalidadeRepository;
 	
 	@GetMapping
 	public ResponseEntity<List<Professor>> getAll(){
@@ -51,16 +55,25 @@ public class ProfessorController {
 	
 	@PostMapping
 	public ResponseEntity<Professor> post(@Valid @RequestBody Professor professor) {
+		if(modalidadeRepository.existsById(professor.getModalidade().getId()))
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(professorRepository.save(professor));
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Modalidade não existe!", null);
 	}
 	
 	@PutMapping
 	public ResponseEntity<Professor> put(@Valid @RequestBody Professor professor) {
-		return professorRepository.findById(professor.getId())
-				.map(resposta -> ResponseEntity.status(HttpStatus.OK)
-						.body(professorRepository.save(professor)))
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		if(professorRepository.existsById(professor.getId())) {
+			if(modalidadeRepository.existsById(professor.getModalidade().getId()))
+				return ResponseEntity.status(HttpStatus.OK)
+						.body(professorRepository.save(professor));	
+				
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Modalidade não existe!" , null);
+		
+		}
+		
+	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+				
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
