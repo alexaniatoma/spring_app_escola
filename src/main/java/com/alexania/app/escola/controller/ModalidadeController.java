@@ -18,60 +18,61 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.alexania.app.escola.model.Aluno;
+import com.alexania.app.escola.model.Modalidade;
 import com.alexania.app.escola.model.Professor;
-import com.alexania.app.escola.repository.ProfessorRepository;
+import com.alexania.app.escola.repository.ModalidadeRepository;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/professores")
+@RequestMapping("/modalidades")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class ProfessorController {
+public class ModalidadeController {
 	
 	@Autowired
-	private ProfessorRepository professorRepository;
+	private ModalidadeRepository modalidadeRepository;
 	
 	@GetMapping
-	public ResponseEntity<List<Professor>> getAll(){
-		return ResponseEntity.ok(professorRepository.findAll());
+	public ResponseEntity<List<Modalidade>> getAll(){
+		return ResponseEntity.ok(modalidadeRepository.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Professor>getById(@PathVariable Long id) {
-		return professorRepository.findById(id)
+	public ResponseEntity<Modalidade>getById(@PathVariable Long id) {
+		return modalidadeRepository.findById(id)
 				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 	
-	@GetMapping("/nome/{nome}")
-	public ResponseEntity<List<Professor>>getByNome(@PathVariable String nome) {
-		return ResponseEntity.ok(professorRepository.findByNomeContainingIgnoreCase(nome));
+	@GetMapping("/descricao/{descricao}")
+	public ResponseEntity<List<Modalidade>>getByNome(@PathVariable String descricao) {
+		return ResponseEntity.ok(modalidadeRepository.findByDescricaoContainingIgnoreCase(descricao));
 	}
 	
 	@PostMapping
-	public ResponseEntity<Professor> post(@Valid @RequestBody Professor professor) {
+	public ResponseEntity<Modalidade> post(@Valid @RequestBody Modalidade modalidade) {
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(professorRepository.save(professor));
+				.body(modalidadeRepository.save(modalidade));
 	}
 	
 	@PutMapping
-	public ResponseEntity<Professor> put(@Valid @RequestBody Professor professor) {
-		return professorRepository.findById(professor.getId())
+	public ResponseEntity<Modalidade> put(@Valid @RequestBody Modalidade modalidade) {
+		return modalidadeRepository.findById(modalidade.getId())
 				.map(resposta -> ResponseEntity.status(HttpStatus.OK)
-						.body(professorRepository.save(professor)))
+						.body(modalidadeRepository.save(modalidade)))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		Optional<Professor> professor = professorRepository.findById(id);
+		Optional<Modalidade> modalidade = modalidadeRepository.findById(id);
 		
-		if(professor.isEmpty())
+		if(modalidade.isEmpty())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-			professorRepository.deleteById(id);		
+			modalidadeRepository.deleteById(id);		
 	}
 	
+
 }
